@@ -21,6 +21,10 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": {
+        "READ_EXTERNAL_STORAGE": "android.permission.READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE": "android.permission.WRITE_EXTERNAL_STORAGE"
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +32,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1a618fb1-3b5d-4c8a-848d-e8131002116d"
+      }
     }
   }
 }

@@ -4,12 +4,14 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Vibration,
   View,
 } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ModalSettings from "../../components/Modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { formatTime } from "../../utils/formatTime";
 
 export default function Timer() {
   const [shortBreak, setIsShortBreak] = useState(5 * 60);
@@ -20,6 +22,16 @@ export default function Timer() {
   const [isPaused, setIsPaused] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [isOpenSettings, setIsOpenSettings] = useState(false);
+
+  const messageRef = useRef(null);
+
+  const ONE_SECOND_IN_MS = 1000;
+
+  const PATTERN = [
+    1 * ONE_SECOND_IN_MS,
+    2 * ONE_SECOND_IN_MS,
+    3 * ONE_SECOND_IN_MS,
+  ];
 
   useEffect(() => {
     async function getTimes() {
@@ -46,6 +58,7 @@ export default function Timer() {
     if (time === 0) {
       setIsStarted(false);
       setIsPaused(false);
+      Vibration.vibrate(PATTERN);
       if (option === "pomodoro") {
         setOption("shortBreak");
         setTime(shortBreak);
@@ -105,14 +118,6 @@ export default function Timer() {
     ]);
   }
 
-  function formatTime(time) {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes < 10 ? "0" + minutes : minutes}:${
-      seconds < 10 ? "0" + seconds : seconds
-    }`;
-  }
-
   function handleChangeIntervalValue(value) {
     setTime(value);
     setIsPaused(false);
@@ -120,6 +125,7 @@ export default function Timer() {
   }
   function onStart() {
     if (isStarted) return;
+
     if (option === "pomodoro") {
       handleChangeIntervalValue(pomodoro);
     }
@@ -167,6 +173,24 @@ export default function Timer() {
           </TouchableOpacity>
         </View>
         <View style={styles.content}>
+          {isStarted && (
+            <View
+              style={{
+                marginBottom: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "#EE5353",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                Não bloqueie o celular enquanto o pomodoro estiver rodando
+              </Text>
+            </View>
+          )}
           <View style={styles.timerContainer}>
             <View style={styles.progressBar} />
             <Text style={styles.timer}>{formatTime(time)}</Text>

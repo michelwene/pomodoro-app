@@ -7,23 +7,20 @@
       "developmentClient": true,
       "distribution": "internal",
       "android": {
-        "gradleCommand": ":app:assembleDebug"
+        "buildType": "apk"
       },
       "ios": {
-        "simulator": true,
-        "buildConfiguration": "Debug"
+        "simulator": true
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
-        "gradleCommand": ":app:assembleDebug"
+        "buildType": "apk"
       },
       "ios": {
-        "simulator": true,
-        "buildConfiguration": "Debug"
-      },
-      "production": {}
+        "simulator": true
+      }
     },
     "submit": {
       "production": {}
